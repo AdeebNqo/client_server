@@ -12,6 +12,12 @@ public class Client {
 			while((line=input.readLine())!=null){
 				System.out.println(line);
 			}
+			input.close();
+			
+			//Reading data from user via console
+			BufferedReader user_input = new BufferedReader(new InputStreamReader(System.in));
+			System.out.println("You've just entered "+(user_input.readLine()));
+			
 			client_socket.close();
 		} catch (Exception e) {
 			e.printStackTrace();
