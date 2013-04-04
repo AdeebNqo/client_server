@@ -1,11 +1,12 @@
 package com.adeeb.Server;
 
-import java.net.ServerSocket;
-import java.net.Socket;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.PrintWriter;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.text.SimpleDateFormat;
 
 public class Server {
 	static ServerSocket data_link;
@@ -14,8 +15,10 @@ public class Server {
 		try {
 			data_link = new ServerSocket(9998);
 			while (true) {
+				timestamp();
 				System.out.println("Server running...\nWaiting for client connection.");
 				final Socket current_client = data_link.accept();
+				timestamp();
 				System.out.println("Client "+ current_client.getRemoteSocketAddress().toString()+ " has connected");
 				
 				Interact client_response_system = new Interact(current_client);
@@ -25,7 +28,12 @@ public class Server {
 			e.printStackTrace();
 		}
 	}
-
+	//function for printing time stamps
+	public static void timestamp(){
+		java.util.Date timestamp = new java.util.Date();
+		SimpleDateFormat form = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+		System.out.print(form.format(timestamp).toString()+" ");
+	}
 	/*
 	 * Inner class that will requests for each client
 	 */
@@ -40,8 +48,10 @@ public class Server {
 			// run the interaction process until the client quits
 			try{
 				//---Display Menu---//
+				timestamp();
 				System.err.println("server: start of menu");
 				BufferedWriter writer = new BufferedWriter(new PrintWriter(client.getOutputStream()));
+				timestamp();
 				System.err.println("server: after creating writer");	
 				writer.write("1. option");
 				writer.write("2. option");
@@ -49,6 +59,7 @@ public class Server {
 				writer.write("4. option");
 				writer.write("5. Disconnect");
 				client.shutdownOutput();
+				timestamp();
 				System.err.println("server: end of menu");
 			}catch(Exception e){
 				e.printStackTrace();
@@ -59,9 +70,12 @@ public class Server {
 				try{
 					//getting choice from user
 					BufferedReader reader = new BufferedReader(new InputStreamReader(client.getInputStream()));
+					timestamp();
 					System.err.println("reader?=ready: "+reader.ready());
 					String choice = reader.readLine();
+					timestamp();
 					System.err.println("reader?=ready: "+reader.ready());
+					timestamp();
 					System.err.println("choice?=null: "+(choice==null));
 					if (choice.equals("1")){
 	
