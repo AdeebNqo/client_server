@@ -7,8 +7,9 @@ import java.io.PrintWriter;
 import java.net.Socket;
 public class Client {
 	public static void main(String[] args) {
+		String server = "10.42.0.81";//"";
 		try {
-			Socket client_socket = new Socket("localhost", 9998);
+			Socket client_socket = new Socket(server, 9998);
 			/*
 			 * Communication between client and server
 			 * 
