@@ -9,8 +9,7 @@ import java.io.OutputStreamWriter;
 
 public class Client {
 	public static void main(String[] args) {
-		String server = /*"10.42.0.81";*/"localhost";
-		System.out.println("client: init");
+		String server ="localhost";
 		try {
 			System.err.println("client: establishing connection...");
 			Socket client_socket = new Socket(server, 9998);
@@ -19,6 +18,7 @@ public class Client {
 			System.err.println("client: connected!");
 			
 			/*
+			 *
 			 * Communication between client and server
 			 * 
 			 */
@@ -33,18 +33,22 @@ public class Client {
 			 }
 			 
 			 
-			 //writing stuff example
-			output.write("Hello World!");
-			output.flush();
-			
-			//some busy waiting to that client process does not terminate
-			while(true){
-				
+			 //writing stuff from console to server
+			Scanner console_input = new Scanner(System.in);
+			String console_line="";
+			while(!console_line.equalsIgnoreCase("q")){
+				//readline and send it to server
+				console_line = console_input.nextLine();
+				output.write(console_line+"\r\n");
+				output.flush();
 			}
-			
-			//input.close();
-			//output.close();
-			//if (!client_socket.isClosed()) client_socket.close();
+
+			//releasing resources
+			if (!client_socket.isClosed()){
+				client_socket.shutdownInput();
+				client_socket.shutdownOutput();
+				client_socket.close();
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
