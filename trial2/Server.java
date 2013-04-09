@@ -13,7 +13,8 @@ import java.io.OutputStreamWriter;
 import java.io.File;
 public class Server {
 	static ServerSocket data_link;
-	static String logfile = System.getProperty("user.dir") + "server_log.txt";
+	static String logfile = System.getProperty("user.dir") + "/server_log.txt";
+	File log = new File(logfile);
 	static Database db = new Database();
 
 	public static void main(String[] args) {
@@ -54,6 +55,7 @@ public class Server {
 									else if (choice.equals("2")){
 										System.out.println("View own group's stuff!");
 										writeToSocket(db.select(group_id),writer);
+										System.err.println("after writeTo");
 									}
 									else if (choice.equals("3")){
 										System.out.println("View other group's stuff!");
@@ -62,7 +64,7 @@ public class Server {
 										writeToSocket(db.select(gid),writer);
 									}
 									else if (choice.equals("4")){
-
+										writeToSocket(db.selectAll(),writer);
 									}
 									else if (choice.equals("5")){
 										System.out.println();
@@ -118,10 +120,13 @@ public class Server {
 	*/
 	public static void writeToSocket(String output,BufferedWriter writer_object){
 		try{
-			writer_object.write(output+"\r\n");
+			output = output.trim();
+			writer_object.write(output);
+			writer_object.write("\r\n");
 			writer_object.flush();
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+		//writer_object.write("server is done\r\n");
 	}
 }

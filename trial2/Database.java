@@ -12,7 +12,7 @@ public class Database {
 	String query;
 	int updated = 0;
 	String FileName;
-	StringBuilder table = new StringBuilder();
+	String table = "";
 	passwordManager pm = new passwordManager();
 
 	public Database() {
@@ -45,7 +45,7 @@ public class Database {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return table.toString();
+		return table;
 	}
 
 	public String select(int GroupID) {
@@ -56,7 +56,7 @@ public class Database {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return table.toString();
+		return table;
 	}
 	public void mean (int parameter,int GroupID){
 		if ( GroupID==0){
@@ -96,7 +96,7 @@ public class Database {
 			getResults();
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}
+			}
 		}
 		
 	}
@@ -105,9 +105,11 @@ public class Database {
 		while (results.next()) {
 			int numColumns = results.getMetaData().getColumnCount();
 			for (int i = 1; i <= numColumns; i++) {
-				table.append(results.getString(i) + " ");
+				table+=(results.getString(i) + " ");
 			}
-			table.append("\n");
+			if (!results.isLast()){
+				table+="\n";
+			}
 		}
 		results.close();
 

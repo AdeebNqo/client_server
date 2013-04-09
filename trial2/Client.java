@@ -15,6 +15,11 @@ public class Client {
 	public static void main(String[] args) {
 		String server ="localhost";
 		try {
+			/*
+			Connecting to server and given port nun. port num is passed via the terminal
+
+			Retrieve the output and input streams
+			*/
 			System.err.println("client: establishing connection...");
 			Socket client_socket = new Socket(server, Integer.parseInt(args[0]));
 			output = new BufferedWriter(new PrintWriter(client_socket.getOutputStream()));
@@ -50,15 +55,38 @@ public class Client {
 				}
 				else if (console_line.equals("2")){
 					writeToSocket("2");
-					System.out.println("done choosing two!");
 					String xline;
-					while((xline=input.readLine())!=null){
+					while(((xline=input.readLine())!=null)){
 						System.out.println(xline);
+						if (!input.ready()){
+							break;
+						}
 					}
 				}
 				else if (console_line.equals("3")){
 					writeToSocket("3");
 					writeToSocket(""+console_input.nextInt());
+					console_input.nextLine(); //consuming remaining \n
+					String xline;
+                                        while(((xline=input.readLine())!=null)){
+                                                System.out.println(xline);
+                                                if (!input.ready()){
+                                                        break;
+                                                }
+                                        }
+				}
+				else if (console_line.equals("4")){
+					writeToSocket("4");
+					String xline;
+                                        while(((xline=input.readLine())!=null)){
+                                                System.out.println(xline);
+                                                if (!input.ready()){
+                                                        break;
+                                                }
+                                        }	
+				}
+				else if (console_line.equals("5")){
+					break;
 				}
 			}
 
